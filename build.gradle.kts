@@ -5,7 +5,7 @@ plugins {
     id("com.gradle.plugin-publish") version "0.12.0"
 }
 
-group = "com.sherepenko"
+group = "com.sherepenko.gradle"
 version = "0.1.0-SNAPSHOT"
 
 repositories {
