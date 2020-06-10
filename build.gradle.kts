@@ -7,10 +7,12 @@ plugins {
 }
 
 group = "com.sherepenko.gradle"
-version = "0.1.0"
+description = "Semantic Versioning Plugin"
+version = "0.1.1"
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 pluginBundle {
@@ -37,4 +39,8 @@ gradlePlugin {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    testImplementation("junit:junit:4.13")
+    testImplementation("com.google.truth:truth:1.0.1")
+    testImplementation("com.google.truth.extensions:truth-java8-extension:1.0.1")
+    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
 }

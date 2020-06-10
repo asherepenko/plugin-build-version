@@ -1,14 +1,9 @@
-package com.sherepenko.gradle.plugin.version.data
+package com.sherepenko.gradle.plugin.version
 
 import java.io.File
-import java.lang.IllegalArgumentException
-import kotlin.math.max
-import kotlin.math.min
 
 class BuildVersion(private val versionFile: File) {
     companion object {
-        private const val MAX_CANDIDATE_VALUE = 99
-
         private val VERSION_PATTERN = Regex(
             """(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:-([\dA-z\-]+(?:\.[\dA-z\-]+)*))?(?:\+([\dA-z\-]+(?:\.[\dA-z\-]+)*))?"""
         )
@@ -33,20 +28,22 @@ class BuildVersion(private val versionFile: File) {
     }
 
     // 2 digits
-    private var major: Int
+    internal var major: Int
+        private set
 
     // 3 digits
-    private var minor: Int
+    internal var minor: Int
+        private set
 
     // 2 digits
-    private var patch: Int
+    internal var patch: Int
+        private set
 
-    // 2 digits
-    private var candidate: Int
+    internal var preRelease: String?
+        private set
 
-    private var preRelease: String?
-
-    private var buildMetadata: String?
+    internal var buildMetadata: String?
+        private set
 
     init {
         val result = parseBuildVersion(versionFile)
@@ -54,7 +51,6 @@ class BuildVersion(private val versionFile: File) {
         major = result.groupValues[1].toInt()
         minor = result.groupValues[2].toInt()
         patch = result.groupValues[3].toInt()
-        candidate = 0
         preRelease = if (result.groupValues[4].isEmpty()) null else result.groupValues[4]
         buildMetadata = if (result.groupValues[5].isEmpty()) null else result.groupValues[5]
 
@@ -69,10 +65,6 @@ class BuildVersion(private val versionFile: File) {
             require(it.matches(PRE_RELEASE_PATTERN)) {
                 "Pre-release version is not valid"
             }
-            candidate = min(
-                max(it.replace(Regex("""[^0-9]"""), "").toIntOrNull() ?: 0, 0),
-                MAX_CANDIDATE_VALUE
-            )
         }
 
         buildMetadata?.let {
@@ -83,7 +75,7 @@ class BuildVersion(private val versionFile: File) {
     }
 
     val versionCode: Int
-        get() = major * 100000000 + minor * 10000 + patch * 100 + candidate
+        get() = major * 10000000 + minor * 10000 + patch * 100
 
     val versionName: String
         get() = buildString {
@@ -100,7 +92,6 @@ class BuildVersion(private val versionFile: File) {
 
     // Trim pre-release and build metadata
     fun prepareProdRelease() {
-        candidate = 0
         preRelease = null
         buildMetadata = null
     }

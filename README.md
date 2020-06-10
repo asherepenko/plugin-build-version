@@ -17,4 +17,4 @@ Additional labels for pre-release and build metadata are available as extensions
 - `incrementMajor` will increment the `MAJOR` and set the `MINOR` and `PATCH` versions to `0`;
 - `incrementMinor` will increment the `MINOR` and set the `PATCH` versions to `0`;
 - `incrementPatch` will increment the `PATCH` version;
-- `prepareReleaseVersion` will prepare release version by stripping pre-release and build metadata
+- `prepareReleaseVersion` will prepare release version by trimming pre-release and build metadata

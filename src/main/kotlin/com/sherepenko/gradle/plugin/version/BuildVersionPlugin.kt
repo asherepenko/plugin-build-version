@@ -1,8 +1,5 @@
 package com.sherepenko.gradle.plugin.version
 
-import com.sherepenko.gradle.plugin.version.data.BuildVersion
-import com.sherepenko.gradle.plugin.version.tasks.Increment
-import com.sherepenko.gradle.plugin.version.tasks.IncrementVersionTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
@@ -19,7 +16,7 @@ class BuildVersionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         extension = project.extensions.create(
             "buildVersion",
-            BuildVersion(project.rootProject.file("version"))
+                BuildVersion(project.rootProject.file("version"))
         )
 
         project.run {
@@ -49,7 +46,7 @@ class BuildVersionPlugin : Plugin<Project> {
 
                 create("prepareReleaseVersion", IncrementVersionTask::class) {
                     group = TASK_GROUP
-                    description = "Prepares release version by stripping pre-release and build metadata"
+                    description = "Prepares release version by trimming pre-release and build metadata"
                     prodRelease = true
                     version = extension.version
                 }
