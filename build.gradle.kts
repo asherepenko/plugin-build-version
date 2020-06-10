@@ -53,8 +53,8 @@ ktlint {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    testImplementation("junit:junit:4.13")
     testImplementation("com.google.truth:truth:1.0.1")
     testImplementation("com.google.truth.extensions:truth-java8-extension:1.0.1")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+    testImplementation("junit:junit:4.13")
 }
