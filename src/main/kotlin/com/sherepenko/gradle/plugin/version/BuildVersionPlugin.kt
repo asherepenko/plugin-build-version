@@ -28,28 +28,28 @@ class BuildVersionPlugin : Plugin<Project> {
             tasks {
                 create("incrementMajor", IncrementVersionTask::class) {
                     group = TASK_GROUP
-                    description = "Increment MAJOR version when you make incompatible API changes"
+                    description = "Increments the MAJOR and set the MINOR and PATCH versions to 0"
                     increment = Increment.MAJOR
                     version = extension.version
                 }
 
                 create("incrementMinor", IncrementVersionTask::class) {
                     group = TASK_GROUP
-                    description = "Increment MINOR version when you add functionality in a backward compatible manner"
+                    description = "Increments the MINOR and set the PATCH versions to 0"
                     increment = Increment.MINOR
                     version = extension.version
                 }
 
                 create("incrementPatch", IncrementVersionTask::class) {
                     group = TASK_GROUP
-                    description = "Increment PATCH version when you make backward compatible bug fixes"
+                    description = "Increments PATCH version"
                     increment = Increment.PATCH
                     version = extension.version
                 }
 
                 create("prepareReleaseVersion", IncrementVersionTask::class) {
                     group = TASK_GROUP
-                    description = "Prepare release version by stripping pre-release and build metadata"
+                    description = "Prepares release version by stripping pre-release and build metadata"
                     prodRelease = true
                     version = extension.version
                 }
