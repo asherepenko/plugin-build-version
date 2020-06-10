@@ -1,6 +1,6 @@
 # Semantic Versioning Plugin
 
-**Gradle plugin that provides Semantic Versioning 2.0.0 implementation with auto-increment features.**
+Gradle plugin that provides Semantic Versioning 2.0.0 implementation with auto-increment features.
 
 ## Summary
 
