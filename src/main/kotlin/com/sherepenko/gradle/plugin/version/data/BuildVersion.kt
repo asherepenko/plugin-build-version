@@ -7,6 +7,8 @@ import kotlin.math.min
 
 class BuildVersion(private val versionFile: File) {
     companion object {
+        private const val MAX_CANDIDATE_VALUE = 99
+
         private val VERSION_PATTERN = Regex(
             """(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:-([\dA-z\-]+(?:\.[\dA-z\-]+)*))?(?:\+([\dA-z\-]+(?:\.[\dA-z\-]+)*))?"""
         )
@@ -19,7 +21,15 @@ class BuildVersion(private val versionFile: File) {
             """[\dA-z\-]+(?:\.[\dA-z\-]+)*"""
         )
 
-        private const val MAX_CANDIDATE_VALUE = 99
+        private fun parseBuildVersion(file: File): MatchResult {
+            if (file.exists() && file.canRead()) {
+                val versionText = file.readText()
+                return VERSION_PATTERN.matchEntire(versionText)
+                    ?: throw IllegalArgumentException("Unable to parse build version: $versionText")
+            } else {
+                throw IllegalArgumentException("Unable to read version file: ${file.path}")
+            }
+        }
     }
 
     // 2 digits
@@ -39,20 +49,14 @@ class BuildVersion(private val versionFile: File) {
     private var buildMetadata: String?
 
     init {
-        if (versionFile.exists() && versionFile.canRead()) {
-            val versionText = versionFile.readText()
-            val result = VERSION_PATTERN.matchEntire(versionText)
-                ?: throw IllegalArgumentException("Unable to parse build version: $versionText")
+        val result = parseBuildVersion(versionFile)
 
-            major = result.groupValues[1].toInt()
-            minor = result.groupValues[2].toInt()
-            patch = result.groupValues[3].toInt()
-            candidate = 0
-            preRelease = if (result.groupValues[4].isEmpty()) null else result.groupValues[4]
-            buildMetadata = if (result.groupValues[5].isEmpty()) null else result.groupValues[5]
-        } else {
-            throw IllegalArgumentException("Unable to read version file: ${versionFile.path}")
-        }
+        major = result.groupValues[1].toInt()
+        minor = result.groupValues[2].toInt()
+        patch = result.groupValues[3].toInt()
+        candidate = 0
+        preRelease = if (result.groupValues[4].isEmpty()) null else result.groupValues[4]
+        buildMetadata = if (result.groupValues[5].isEmpty()) null else result.groupValues[5]
 
         require(major >= 0) { "Major version must be a positive number" }
         require(minor >= 0) { "Minor version must be a positive number" }
@@ -62,7 +66,9 @@ class BuildVersion(private val versionFile: File) {
         }
 
         preRelease?.let {
-            require(it.matches(PRE_RELEASE_PATTERN)) { "Pre-release version is not valid" }
+            require(it.matches(PRE_RELEASE_PATTERN)) {
+                "Pre-release version is not valid"
+            }
             candidate = min(
                 max(it.replace(Regex("""[^0-9]"""), "").toIntOrNull() ?: 0, 0),
                 MAX_CANDIDATE_VALUE
@@ -70,7 +76,9 @@ class BuildVersion(private val versionFile: File) {
         }
 
         buildMetadata?.let {
-            require(it.matches(BUILD_METADATA_PATTERN)) { "Build metadata is not valid" }
+            require(it.matches(BUILD_METADATA_PATTERN)) {
+                "Build metadata is not valid"
+            }
         }
     }
 
