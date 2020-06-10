@@ -1,1 +1,1 @@
-rootProject.name = "build-version-plugin"
+rootProject.name = "plugin-build-version"

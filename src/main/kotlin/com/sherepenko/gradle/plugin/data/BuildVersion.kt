@@ -1,4 +1,4 @@
-package com.sherepenko.gradle.version.data
+package com.sherepenko.gradle.plugin.data
 
 import java.io.File
 import java.lang.IllegalArgumentException
@@ -24,6 +24,8 @@ class BuildVersion(private val versionFile: File) {
 
     private var patch: Int
 
+    private var candidate: Int
+
     private var preRelease: String?
 
     private var buildMetadata: String?
@@ -37,6 +39,7 @@ class BuildVersion(private val versionFile: File) {
             major = result.groupValues[1].toInt()
             minor = result.groupValues[2].toInt()
             patch = result.groupValues[3].toInt()
+            candidate = 0
             preRelease = if (result.groupValues[4].isEmpty()) null else result.groupValues[4]
             buildMetadata = if (result.groupValues[5].isEmpty()) null else result.groupValues[5]
         } else {
@@ -46,10 +49,13 @@ class BuildVersion(private val versionFile: File) {
         require(major >= 0) { "Major version must be a positive number" }
         require(minor >= 0) { "Minor version must be a positive number" }
         require(patch >= 0) { "Patch version must be a positive number" }
-        require(major > 0 || minor > 0) { "Major or Minor version must be greater than 0" }
+        require(major > 0 || minor > 0 || patch > 0) {
+            "At least one version number must be greater than 0"
+        }
 
         preRelease?.let {
             require(it.matches(PRE_RELEASE_PATTERN)) { "Pre-release version is not valid" }
+            candidate = it.replace(Regex("""[^0-9]"""), "").toIntOrNull() ?: 0
         }
 
         buildMetadata?.let {
@@ -58,7 +64,7 @@ class BuildVersion(private val versionFile: File) {
     }
 
     val versionCode: Int
-        get() = major * 10000 + minor * 1000 + patch
+        get() = major * 1000000 + minor * 10000 + patch * 100 + candidate
 
     val versionName: String
         get() = buildString {
@@ -75,6 +81,7 @@ class BuildVersion(private val versionFile: File) {
 
     // Trim pre-release and build metadata
     fun prepareProdRelease() {
+        candidate = 0
         preRelease = null
         buildMetadata = null
     }
@@ -83,30 +90,32 @@ class BuildVersion(private val versionFile: File) {
         major++
         minor = 0
         patch = 0
-
+        ensureVersion()
         versionFile.writeText(versionName)
     }
 
     fun incrementMinor() {
         minor++
         patch = 0
-
-        if (minor >= 1000) {
-            major++
-            minor = 0
-        }
-
+        ensureVersion()
         versionFile.writeText(versionName)
     }
 
     fun incrementPatch() {
         patch++
+        ensureVersion()
+        versionFile.writeText(versionName)
+    }
 
-        if (patch >= 1000) {
+    private fun ensureVersion() {
+        if (patch >= 100) {
             minor++
             patch = 0
         }
 
-        versionFile.writeText(versionName)
+        if (minor >= 100) {
+            major++
+            minor = 0
+        }
     }
 }

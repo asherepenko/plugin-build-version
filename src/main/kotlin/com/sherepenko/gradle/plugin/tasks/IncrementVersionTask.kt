@@ -1,6 +1,6 @@
-package com.sherepenko.gradle.version.tasks
+package com.sherepenko.gradle.plugin.tasks
 
-import com.sherepenko.gradle.version.data.BuildVersion
+import com.sherepenko.gradle.plugin.data.BuildVersion
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
