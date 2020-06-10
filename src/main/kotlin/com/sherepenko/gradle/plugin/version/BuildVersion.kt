@@ -5,11 +5,7 @@ import java.io.File
 class BuildVersion(private val versionFile: File) {
     companion object {
         private val VERSION_PATTERN = Regex(
-            """
-            (0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?
-            (?:-([\dA-z\-]+(?:\.[\dA-z\-]+)*))?
-            (?:\+([\dA-z\-]+(?:\.[\dA-z\-]+)*))?
-            """.trimIndent()
+            """(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:-([\dA-z\-]+(?:\.[\dA-z\-]+)*))?(?:\+([\dA-z\-]+(?:\.[\dA-z\-]+)*))?""" // ktlint-disable
         )
 
         private val PRE_RELEASE_PATTERN = Regex(
