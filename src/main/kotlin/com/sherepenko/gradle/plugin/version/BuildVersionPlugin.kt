@@ -46,7 +46,8 @@ class BuildVersionPlugin : Plugin<Project> {
 
                 create("prepareReleaseVersion", IncrementVersionTask::class) {
                     group = TASK_GROUP
-                    description = "Prepares release version by trimming pre-release and build metadata"
+                    description = "Prepares release version by trimming " +
+                        "pre-release and build metadata"
                     prodRelease = true
                     version = extension.version
                 }

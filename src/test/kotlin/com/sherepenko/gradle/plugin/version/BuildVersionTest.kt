@@ -1,12 +1,12 @@
 package com.sherepenko.gradle.plugin.version
 
 import com.google.common.truth.Truth.assertThat
+import java.io.File
+import java.lang.IllegalArgumentException
 import org.junit.Assert.assertThrows
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import java.io.File
-import java.lang.IllegalArgumentException
 
 class BuildVersionTest {
 
@@ -192,7 +192,7 @@ class BuildVersionTest {
     }
 
     @Test
-    fun `should increment MINOR version by incrementing PATCH version if PATCH = 99`() {
+    fun `should increment MINOR by incrementing PATCH version if PATCH = 99`() {
         val major = 1
         val minor = 1
         val patch = 99
@@ -225,7 +225,7 @@ class BuildVersionTest {
     }
 
     @Test
-    fun `should increment MAJOR version by incrementing MINOR version if MINOR = 999`() {
+    fun `should increment MAJOR by incrementing MINOR version if MINOR = 999`() {
         val major = 1
         val minor = 999
         val patch = 1
@@ -258,7 +258,7 @@ class BuildVersionTest {
     }
 
     @Test
-    fun `should increment MAJOR version by incrementing PATCH version if PATCH = 99 and MINOR = 999`() {
+    fun `should increment MAJOR by incrementing PATCH version if PATCH = 99 and MINOR = 999`() {
         val major = 1
         val minor = 999
         val patch = 99

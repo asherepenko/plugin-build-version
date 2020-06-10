@@ -5,7 +5,11 @@ import java.io.File
 class BuildVersion(private val versionFile: File) {
     companion object {
         private val VERSION_PATTERN = Regex(
-            """(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:-([\dA-z\-]+(?:\.[\dA-z\-]+)*))?(?:\+([\dA-z\-]+(?:\.[\dA-z\-]+)*))?"""
+            """
+            (0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?
+            (?:-([\dA-z\-]+(?:\.[\dA-z\-]+)*))?
+            (?:\+([\dA-z\-]+(?:\.[\dA-z\-]+)*))?
+            """.trimIndent()
         )
 
         private val PRE_RELEASE_PATTERN = Regex(
@@ -20,9 +24,13 @@ class BuildVersion(private val versionFile: File) {
             if (file.exists() && file.canRead()) {
                 val versionText = file.readText()
                 return VERSION_PATTERN.matchEntire(versionText)
-                    ?: throw IllegalArgumentException("Unable to parse build version: $versionText")
+                    ?: throw IllegalArgumentException(
+                        "Unable to parse build version: $versionText"
+                    )
             } else {
-                throw IllegalArgumentException("Unable to read version file: ${file.path}")
+                throw IllegalArgumentException(
+                    "Unable to read version file: ${file.path}"
+                )
             }
         }
     }
@@ -51,8 +59,16 @@ class BuildVersion(private val versionFile: File) {
         major = result.groupValues[1].toInt()
         minor = result.groupValues[2].toInt()
         patch = result.groupValues[3].toInt()
-        preRelease = if (result.groupValues[4].isEmpty()) null else result.groupValues[4]
-        buildMetadata = if (result.groupValues[5].isEmpty()) null else result.groupValues[5]
+        preRelease = if (result.groupValues[4].isNotEmpty()) {
+            result.groupValues[4]
+        } else {
+            null
+        }
+        buildMetadata = if (result.groupValues[5].isNotEmpty()) {
+            result.groupValues[5]
+        } else {
+            null
+        }
 
         require(major >= 0) { "Major version must be a positive number" }
         require(minor >= 0) { "Minor version must be a positive number" }

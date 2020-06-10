@@ -1,8 +1,11 @@
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+
 plugins {
     `java-gradle-plugin`
     `kotlin-dsl`
     `maven-publish`
     id("com.gradle.plugin-publish") version "0.12.0"
+    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
     kotlin("jvm") version "1.3.72"
 }
 
@@ -31,9 +34,20 @@ gradlePlugin {
         create("buildVersionPlugin") {
             id = "com.sherepenko.gradle.plugin-build-version"
             displayName = "Semantic Versioning Plugin"
-            description = "Gradle plugin that provides Semantic Versioning 2.0 implementation with auto-increment features"
+            description = "Gradle plugin that provides Semantic Versioning 2.0 implementation " +
+                "with auto-increment features"
             implementationClass = "com.sherepenko.gradle.plugin.version.BuildVersionPlugin"
         }
+    }
+}
+
+ktlint {
+    verbose.set(true)
+    android.set(true)
+
+    reporters {
+        reporter(ReporterType.PLAIN)
+        reporter(ReporterType.CHECKSTYLE)
     }
 }
 

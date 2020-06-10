@@ -26,7 +26,10 @@ class IncrementVersionTaskTest {
 
     @Test
     fun `should call prepare RELEASE version`() {
-        val task = project.tasks.create("prepareReleaseVersion", IncrementVersionTask::class).apply {
+        val task = project.tasks.create(
+            "prepareReleaseVersion",
+            IncrementVersionTask::class
+        ).apply {
             prodRelease = true
             version = buildVersion
         }
