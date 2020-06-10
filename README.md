@@ -14,7 +14,8 @@ plugins {
 }
 ```
 
-Using legacy plugin application
+**Using legacy plugin application:**
+
 ```kotlin
 buildscript {
     repositories {
