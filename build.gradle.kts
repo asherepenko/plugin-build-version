@@ -29,7 +29,7 @@ gradlePlugin {
         create("buildVersionPlugin") {
             id = "com.sherepenko.gradle.plugin-build-version"
             displayName = "Semantic Versioning Plugin"
-            description = "This Gradle plugin provides Semantic Versioning 2.0.0 implementation with auto-increment features"
+            description = "Gradle plugin that provides Semantic Versioning 2.0 implementation with auto-increment features"
             implementationClass = "com.sherepenko.gradle.plugin.version.BuildVersionPlugin"
         }
     }
