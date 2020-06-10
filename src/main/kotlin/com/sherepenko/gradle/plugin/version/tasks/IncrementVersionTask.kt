@@ -1,6 +1,6 @@
-package com.sherepenko.gradle.plugin.tasks
+package com.sherepenko.gradle.plugin.version.tasks
 
-import com.sherepenko.gradle.plugin.data.BuildVersion
+import com.sherepenko.gradle.plugin.version.data.BuildVersion
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
@@ -8,7 +8,8 @@ import org.gradle.api.tasks.TaskAction
 enum class Increment {
     MAJOR,
     MINOR,
-    PATCH
+    PATCH,
+    NONE,
 }
 
 abstract class IncrementVersionTask : DefaultTask() {
@@ -16,7 +17,7 @@ abstract class IncrementVersionTask : DefaultTask() {
     var prodRelease: Boolean = false
 
     @get:Input
-    abstract var increment: Increment
+    var increment: Increment = Increment.NONE
 
     @get:Input
     abstract var version: BuildVersion
@@ -29,6 +30,7 @@ abstract class IncrementVersionTask : DefaultTask() {
         val prevVersionName = version.versionName
 
         if (prodRelease) {
+            println("Prepare release version...")
             version.prepareProdRelease()
         }
 
@@ -41,6 +43,9 @@ abstract class IncrementVersionTask : DefaultTask() {
             }
             Increment.PATCH -> {
                 version.incrementPatch()
+            }
+            else -> {
+                // ignore
             }
         }
 

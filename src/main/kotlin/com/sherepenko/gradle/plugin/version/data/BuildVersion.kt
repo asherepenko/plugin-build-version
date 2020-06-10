@@ -1,7 +1,9 @@
-package com.sherepenko.gradle.plugin.data
+package com.sherepenko.gradle.plugin.version.data
 
 import java.io.File
 import java.lang.IllegalArgumentException
+import kotlin.math.max
+import kotlin.math.min
 
 class BuildVersion(private val versionFile: File) {
     companion object {
@@ -16,14 +18,20 @@ class BuildVersion(private val versionFile: File) {
         private val BUILD_METADATA_PATTERN = Regex(
             """[\dA-z\-]+(?:\.[\dA-z\-]+)*"""
         )
+
+        private const val MAX_CANDIDATE_VALUE = 99
     }
 
+    // 2 digits
     private var major: Int
 
+    // 3 digits
     private var minor: Int
 
+    // 2 digits
     private var patch: Int
 
+    // 2 digits
     private var candidate: Int
 
     private var preRelease: String?
@@ -55,7 +63,10 @@ class BuildVersion(private val versionFile: File) {
 
         preRelease?.let {
             require(it.matches(PRE_RELEASE_PATTERN)) { "Pre-release version is not valid" }
-            candidate = it.replace(Regex("""[^0-9]"""), "").toIntOrNull() ?: 0
+            candidate = min(
+                max(it.replace(Regex("""[^0-9]"""), "").toIntOrNull() ?: 0, 0),
+                MAX_CANDIDATE_VALUE
+            )
         }
 
         buildMetadata?.let {
@@ -64,7 +75,7 @@ class BuildVersion(private val versionFile: File) {
     }
 
     val versionCode: Int
-        get() = major * 1000000 + minor * 10000 + patch * 100 + candidate
+        get() = major * 100000000 + minor * 10000 + patch * 100 + candidate
 
     val versionName: String
         get() = buildString {
@@ -113,7 +124,7 @@ class BuildVersion(private val versionFile: File) {
             patch = 0
         }
 
-        if (minor >= 100) {
+        if (minor >= 1000) {
             major++
             minor = 0
         }

@@ -6,27 +6,31 @@ plugins {
     kotlin("jvm") version "1.3.72"
 }
 
-group = "com.sherepenko.gradle.plugin"
-version = "0.1.0-SNAPSHOT"
+group = "com.sherepenko.gradle"
+version = "0.1.0"
 
 repositories {
     jcenter()
-    mavenCentral()
 }
 
 pluginBundle {
     website = "https://asherepenko.github.io/plugin-build-version/"
     vcsUrl = "https://github.com/asherepenko/plugin-build-version"
     tags = listOf("semantic-versioning", "version", "versioning", "auto-increment")
+
+    mavenCoordinates {
+        groupId = project.group as String
+        artifactId = "plugin-build-version"
+    }
 }
 
 gradlePlugin {
     plugins {
         create("buildVersionPlugin") {
-            id = "com.sherepenko.gradle.plugin.build-version"
+            id = "com.sherepenko.gradle.plugin-build-version"
             displayName = "Semantic Versioning Plugin"
             description = "This Gradle plugin provides Semantic Versioning 2.0.0 implementation with auto-increment features"
-            implementationClass = "com.sherepenko.gradle.plugin.BuildVersionPlugin"
+            implementationClass = "com.sherepenko.gradle.plugin.version.BuildVersionPlugin"
         }
     }
 }
