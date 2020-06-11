@@ -1,8 +1,8 @@
 # Semantic Versioning Plugin
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Gradle Plugin Portal](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/com/sherepenko/gradle/plugin-build-version/com.sherepenko.gradle.plugin-build-version.gradle.plugin/maven-metadata.xml.svg?colorB=007ec6&label=Gradle%20Plugin%20Portal)](https://plugins.gradle.org/plugin/com.sherepenko.gradle.plugin-build-version)
 [![CircleCI](https://circleci.com/gh/asherepenko/plugin-build-version.svg?style=svg&circle-token=384648b6b628cea4af1f4d834f1788ffaafa9f31)](https://circleci.com/gh/asherepenko/plugin-build-version)
+[![Gradle Plugin Portal](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/com/sherepenko/gradle/plugin-build-version/com.sherepenko.gradle.plugin-build-version.gradle.plugin/maven-metadata.xml.svg?colorB=007ec6&label=Gradle%20Plugin%20Portal)](https://plugins.gradle.org/plugin/com.sherepenko.gradle.plugin-build-version)
 
 Gradle plugin that provides Semantic Versioning 2.0.0 implementation with auto-increment features.
 
