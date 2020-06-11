@@ -1,5 +1,7 @@
 # Semantic Versioning Plugin
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 Gradle plugin that provides Semantic Versioning 2.0.0 implementation with auto-increment features.
 
 ## How to
