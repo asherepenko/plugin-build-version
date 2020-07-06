@@ -25,14 +25,14 @@ class BuildVersionPlugin : Plugin<Project> {
             tasks {
                 create("incrementMajor", IncrementVersionTask::class) {
                     group = TASK_GROUP
-                    description = "Increments the MAJOR and set the MINOR and PATCH versions to 0"
+                    description = "Increments the MAJOR and sets the MINOR and PATCH versions to 0"
                     increment = Increment.MAJOR
                     version = extension.version
                 }
 
                 create("incrementMinor", IncrementVersionTask::class) {
                     group = TASK_GROUP
-                    description = "Increments the MINOR and set the PATCH versions to 0"
+                    description = "Increments the MINOR and sets the PATCH version to 0"
                     increment = Increment.MINOR
                     version = extension.version
                 }

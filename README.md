@@ -49,6 +49,6 @@ Additional labels for pre-release and build metadata are available as extensions
 ## Gradle tasks
 
 - `incrementMajor` will increment the `MAJOR` and set the `MINOR` and `PATCH` versions to `0`;
-- `incrementMinor` will increment the `MINOR` and set the `PATCH` versions to `0`;
+- `incrementMinor` will increment the `MINOR` and set the `PATCH` version to `0`;
 - `incrementPatch` will increment the `PATCH` version;
 - `prepareReleaseVersion` will prepare release version by trimming pre-release and build metadata

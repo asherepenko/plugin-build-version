@@ -18,7 +18,7 @@ class BuildVersion(private val versionFile: File) {
 
         private fun parseBuildVersion(file: File): MatchResult {
             if (file.exists() && file.canRead()) {
-                val versionText = file.readText()
+                val versionText = file.readText().trim()
                 return VERSION_PATTERN.matchEntire(versionText)
                     ?: throw IllegalArgumentException(
                         "Unable to parse build version: $versionText"
