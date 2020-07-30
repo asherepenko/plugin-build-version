@@ -18,8 +18,8 @@ class IncrementVersionTaskTest {
     @Before
     fun setUp() {
         buildVersion = mockk<BuildVersion>().apply {
-            every { versionCode } returns  100
-            every { versionName } returns  "0.0.1"
+            every { versionCode } returns 100
+            every { versionName } returns "0.0.1"
         }
 
         project = ProjectBuilder.builder().build()
