@@ -3,6 +3,7 @@ package com.sherepenko.gradle.plugin.version
 import java.io.File
 
 class BuildVersion(private val versionFile: File) {
+
     companion object {
         private val VERSION_PATTERN = Regex(
             """(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:-([\dA-z\-]+(?:\.[\dA-z\-]+)*))?(?:\+([\dA-z\-]+(?:\.[\dA-z\-]+)*))?""" // ktlint-disable
@@ -16,10 +17,10 @@ class BuildVersion(private val versionFile: File) {
             """[\dA-z\-]+(?:\.[\dA-z\-]+)*"""
         )
 
-        private fun parseBuildVersion(file: File): MatchResult {
+        private fun parseBuildVersion(file: File): MatchResult =
             if (file.exists() && file.canRead()) {
                 val versionText = file.readText().trim()
-                return VERSION_PATTERN.matchEntire(versionText)
+                VERSION_PATTERN.matchEntire(versionText)
                     ?: throw IllegalArgumentException(
                         "Unable to parse build version: $versionText"
                     )
@@ -28,7 +29,6 @@ class BuildVersion(private val versionFile: File) {
                     "Unable to read version file: ${file.path}"
                 )
             }
-        }
     }
 
     // 2 digits
@@ -113,20 +113,20 @@ class BuildVersion(private val versionFile: File) {
         minor = 0
         patch = 0
         ensureVersion()
-        versionFile.writeText(versionName)
+        saveVersion()
     }
 
     fun incrementMinor() {
         minor++
         patch = 0
         ensureVersion()
-        versionFile.writeText(versionName)
+        saveVersion()
     }
 
     fun incrementPatch() {
         patch++
         ensureVersion()
-        versionFile.writeText(versionName)
+        saveVersion()
     }
 
     private fun ensureVersion() {
@@ -140,4 +140,7 @@ class BuildVersion(private val versionFile: File) {
             minor = 0
         }
     }
+
+    private fun saveVersion() =
+        versionFile.writeText(versionName)
 }

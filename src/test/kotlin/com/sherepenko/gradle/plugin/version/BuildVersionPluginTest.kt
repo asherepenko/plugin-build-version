@@ -27,6 +27,7 @@ class BuildVersionPluginTest {
         versionFile = projectDir.newFile("version").apply {
             writeText("1.0.0")
         }
+
         buildFile = projectDir.newFile("build.gradle.kts")
 
         project = ProjectBuilder.builder()

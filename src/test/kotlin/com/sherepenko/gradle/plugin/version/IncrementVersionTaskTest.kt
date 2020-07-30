@@ -1,8 +1,8 @@
 package com.sherepenko.gradle.plugin.version
 
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
 import org.gradle.testfixtures.ProjectBuilder
@@ -17,10 +17,11 @@ class IncrementVersionTaskTest {
 
     @Before
     fun setUp() {
-        buildVersion = mock {
-            on { versionCode } doReturn 100
-            on { versionName } doReturn "0.0.1"
+        buildVersion = mockk<BuildVersion>().apply {
+            every { versionCode } returns  100
+            every { versionName } returns  "0.0.1"
         }
+
         project = ProjectBuilder.builder().build()
     }
 
@@ -36,7 +37,7 @@ class IncrementVersionTaskTest {
 
         task.increment()
 
-        verify(buildVersion).prepareProdRelease()
+        verify { buildVersion.prepareProdRelease() }
     }
 
     @Test
@@ -48,7 +49,7 @@ class IncrementVersionTaskTest {
 
         task.increment()
 
-        verify(buildVersion).incrementPatch()
+        verify { buildVersion.incrementPatch() }
     }
 
     @Test
@@ -60,7 +61,7 @@ class IncrementVersionTaskTest {
 
         task.increment()
 
-        verify(buildVersion).incrementMinor()
+        verify { buildVersion.incrementMinor() }
     }
 
     @Test
@@ -72,6 +73,6 @@ class IncrementVersionTaskTest {
 
         task.increment()
 
-        verify(buildVersion).incrementMajor()
+        verify { buildVersion.incrementMajor() }
     }
 }

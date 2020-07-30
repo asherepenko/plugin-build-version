@@ -11,7 +11,7 @@ plugins {
 
 group = "com.sherepenko.gradle"
 description = "Semantic Versioning Plugin"
-version = "0.1.6"
+version = "0.1.7"
 
 repositories {
     jcenter()
@@ -53,6 +53,6 @@ ktlint {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     testImplementation("com.google.truth:truth:1.0.1")
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
     testImplementation("junit:junit:4.13")
+    testImplementation("io.mockk:mockk:1.10.0")
 }
