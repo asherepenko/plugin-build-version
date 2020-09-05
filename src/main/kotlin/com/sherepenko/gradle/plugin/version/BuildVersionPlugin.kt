@@ -16,7 +16,7 @@ class BuildVersionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         extension = project.extensions.create(
             "buildVersion",
-                BuildVersion(project.rootProject.file("version"))
+            BuildVersion(project.rootProject.file("version"))
         )
 
         project.run {

@@ -25,7 +25,7 @@ class BuildVersionPluginTest {
     @Before
     fun setUp() {
         versionFile = projectDir.newFile("version").apply {
-            writeText("1.0.0")
+            saveVersion(newVersionName(1, 0, 0))
         }
 
         buildFile = projectDir.newFile("build.gradle.kts")

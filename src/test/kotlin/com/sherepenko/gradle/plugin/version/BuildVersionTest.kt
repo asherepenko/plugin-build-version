@@ -26,7 +26,7 @@ class BuildVersionTest {
     @Test
     fun `should fail if unable to parse build version from file`() {
         val versionFile = projectDir.newFile("version").apply {
-            writeText("unknown")
+            saveVersion("unknown")
         }
 
         val error = assertThrows(IllegalArgumentException::class.java) {
@@ -37,6 +37,15 @@ class BuildVersionTest {
     }
 
     @Test
+    fun `version file should end with newline`() {
+        val versionFile = projectDir.newFile("version").apply {
+            saveVersion(newVersionName(1, 0, 0))
+        }
+
+        assertThat(versionFile.readText()).endsWith("\n")
+    }
+
+    @Test
     fun `should successfully parse build version from file`() {
         val major = 1
         val minor = 0
@@ -44,11 +53,11 @@ class BuildVersionTest {
         val preRelease = "alpha01"
         val buildMetadata = "meta"
 
-        val versionCode = major * 10000000 + minor * 10000 + patch * 100
-        val versionName = "$major.$minor.$patch-$preRelease+$buildMetadata"
+        val versionCode = newVersionCode(major, minor, patch)
+        val versionName = newVersionName(major, minor, patch, preRelease, buildMetadata)
 
         val versionFile = projectDir.newFile("version").apply {
-            writeText(versionName)
+            saveVersion(versionName)
         }
 
         val buildVersion = BuildVersion(versionFile)
@@ -70,11 +79,11 @@ class BuildVersionTest {
         val preRelease = "alpha01"
         val buildMetadata = "meta"
 
-        val versionCode = major * 10000000 + minor * 10000 + patch * 100
-        val versionName = "$major.$minor.$patch-$preRelease+$buildMetadata"
+        val versionCode = newVersionCode(major, minor, patch)
+        val versionName = newVersionName(major, minor, patch, preRelease, buildMetadata)
 
         val versionFile = projectDir.newFile("version").apply {
-            writeText(versionName)
+            saveVersion(versionName)
         }
 
         val buildVersion = BuildVersion(versionFile)
@@ -98,11 +107,11 @@ class BuildVersionTest {
         val minor = 1
         val patch = 1
 
-        var versionCode = major * 10000000 + minor * 10000 + patch * 100
-        var versionName = "$major.$minor.$patch"
+        var versionCode = newVersionCode(major, minor, patch)
+        var versionName = newVersionName(major, minor, patch)
 
         val versionFile = projectDir.newFile("version").apply {
-            writeText(versionName)
+            saveVersion(versionName)
         }
 
         val buildVersion = BuildVersion(versionFile)
@@ -115,8 +124,8 @@ class BuildVersionTest {
 
         buildVersion.incrementPatch()
 
-        versionCode = major * 10000000 + minor * 10000 + (patch + 1) * 100
-        versionName = "$major.$minor.${patch + 1}"
+        versionCode = newVersionCode(major, minor, patch + 1)
+        versionName = newVersionName(major, minor, patch + 1)
 
         assertThat(buildVersion.major).isEqualTo(major)
         assertThat(buildVersion.minor).isEqualTo(minor)
@@ -131,11 +140,11 @@ class BuildVersionTest {
         val minor = 1
         val patch = 1
 
-        var versionCode = major * 10000000 + minor * 10000 + patch * 100
-        var versionName = "$major.$minor.$patch"
+        var versionCode = newVersionCode(major, minor, patch)
+        var versionName = newVersionName(major, minor, patch)
 
         val versionFile = projectDir.newFile("version").apply {
-            writeText(versionName)
+            saveVersion(versionName)
         }
 
         val buildVersion = BuildVersion(versionFile)
@@ -148,8 +157,8 @@ class BuildVersionTest {
 
         buildVersion.incrementMinor()
 
-        versionCode = major * 10000000 + (minor + 1) * 10000
-        versionName = "$major.${minor + 1}.0"
+        versionCode = newVersionCode(major, minor + 1, 0)
+        versionName = newVersionName(major, minor + 1, 0)
 
         assertThat(buildVersion.major).isEqualTo(major)
         assertThat(buildVersion.minor).isEqualTo(minor + 1)
@@ -164,11 +173,11 @@ class BuildVersionTest {
         val minor = 1
         val patch = 1
 
-        var versionCode = major * 10000000 + minor * 10000 + patch * 100
-        var versionName = "$major.$minor.$patch"
+        var versionCode = newVersionCode(major, minor, patch)
+        var versionName = newVersionName(major, minor, patch)
 
         val versionFile = projectDir.newFile("version").apply {
-            writeText(versionName)
+            saveVersion(versionName)
         }
 
         val buildVersion = BuildVersion(versionFile)
@@ -181,8 +190,8 @@ class BuildVersionTest {
 
         buildVersion.incrementMajor()
 
-        versionCode = (major + 1) * 10000000
-        versionName = "${major + 1}.0.0"
+        versionCode = newVersionCode(major + 1, 0, 0)
+        versionName = newVersionName(major + 1, 0, 0)
 
         assertThat(buildVersion.major).isEqualTo(major + 1)
         assertThat(buildVersion.minor).isEqualTo(0)
@@ -197,11 +206,11 @@ class BuildVersionTest {
         val minor = 1
         val patch = 99
 
-        var versionCode = major * 10000000 + minor * 10000 + patch * 100
-        var versionName = "$major.$minor.$patch"
+        var versionCode = newVersionCode(major, minor, patch)
+        var versionName = newVersionName(major, minor, patch)
 
         val versionFile = projectDir.newFile("version").apply {
-            writeText(versionName)
+            saveVersion(versionName)
         }
 
         val buildVersion = BuildVersion(versionFile)
@@ -214,8 +223,8 @@ class BuildVersionTest {
 
         buildVersion.incrementPatch()
 
-        versionCode = major * 10000000 + (minor + 1) * 10000
-        versionName = "$major.${minor + 1}.0"
+        versionCode = newVersionCode(major, minor + 1, 0)
+        versionName = newVersionName(major, minor + 1, 0)
 
         assertThat(buildVersion.major).isEqualTo(major)
         assertThat(buildVersion.minor).isEqualTo(minor + 1)
@@ -230,11 +239,11 @@ class BuildVersionTest {
         val minor = 999
         val patch = 1
 
-        var versionCode = major * 10000000 + minor * 10000 + patch * 100
-        var versionName = "$major.$minor.$patch"
+        var versionCode = newVersionCode(major, minor, patch)
+        var versionName = newVersionName(major, minor, patch)
 
         val versionFile = projectDir.newFile("version").apply {
-            writeText(versionName)
+            saveVersion(versionName)
         }
 
         val buildVersion = BuildVersion(versionFile)
@@ -247,8 +256,8 @@ class BuildVersionTest {
 
         buildVersion.incrementMinor()
 
-        versionCode = (major + 1) * 10000000
-        versionName = "${major + 1}.0.0"
+        versionCode = newVersionCode(major + 1, 0, 0)
+        versionName = newVersionName(major + 1, 0, 0)
 
         assertThat(buildVersion.major).isEqualTo(major + 1)
         assertThat(buildVersion.minor).isEqualTo(0)
@@ -263,8 +272,8 @@ class BuildVersionTest {
         val minor = 999
         val patch = 99
 
-        var versionCode = major * 10000000 + minor * 10000 + patch * 100
-        var versionName = "$major.$minor.$patch"
+        var versionCode = newVersionCode(major, minor, patch)
+        var versionName = newVersionName(major, minor, patch)
 
         val versionFile = projectDir.newFile("version").apply {
             writeText(versionName)
@@ -280,8 +289,8 @@ class BuildVersionTest {
 
         buildVersion.incrementPatch()
 
-        versionCode = (major + 1) * 10000000
-        versionName = "${major + 1}.0.0"
+        versionCode = newVersionCode(major + 1, 0, 0)
+        versionName = newVersionName(major + 1, 0, 0)
 
         assertThat(buildVersion.major).isEqualTo(major + 1)
         assertThat(buildVersion.minor).isEqualTo(0)

@@ -1,10 +1,17 @@
 package com.sherepenko.gradle.plugin.version
 
 import java.io.File
+import org.gradle.internal.impldep.com.google.common.annotations.VisibleForTesting
 
 class BuildVersion(private val versionFile: File) {
 
     companion object {
+        internal const val MAJOR_VERSION_MASK = 10000000
+
+        internal const val MINOR_VERSION_MASK = 10000
+
+        internal const val PATCH_VERSION_MASK = 100
+
         private val VERSION_PATTERN = Regex(
             """(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:\.)?(0|[1-9]\d*)?(?:-([\dA-z\-]+(?:\.[\dA-z\-]+)*))?(?:\+([\dA-z\-]+(?:\.[\dA-z\-]+)*))?""" // ktlint-disable
         )
@@ -87,7 +94,7 @@ class BuildVersion(private val versionFile: File) {
     }
 
     val versionCode: Int
-        get() = major * 10000000 + minor * 10000 + patch * 100
+        get() = major * MAJOR_VERSION_MASK + minor * MINOR_VERSION_MASK + patch * PATCH_VERSION_MASK
 
     val versionName: String
         get() = buildString {
@@ -142,5 +149,11 @@ class BuildVersion(private val versionFile: File) {
     }
 
     private fun saveVersion() =
-        versionFile.writeText(versionName)
+        versionFile.saveVersion(versionName)
 }
+
+@VisibleForTesting
+fun File.saveVersion(versionName: String) =
+    printWriter().use {
+        it.println(versionName)
+    }
