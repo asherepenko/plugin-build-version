@@ -5,13 +5,13 @@ plugins {
     `kotlin-dsl`
     `maven-publish`
     id("com.gradle.plugin-publish") version "0.12.0"
-    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
-    kotlin("jvm") version "1.4.0"
+    id("org.jlleitschuh.gradle.ktlint") version "9.4.0"
+    kotlin("jvm") version "1.4.10"
 }
 
 group = "com.sherepenko.gradle"
 description = "Semantic Versioning Plugin"
-version = "0.2.1"
+version = "0.2.2"
 
 repositories {
     jcenter()

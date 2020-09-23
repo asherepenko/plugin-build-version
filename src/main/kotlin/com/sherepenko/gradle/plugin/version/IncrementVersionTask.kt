@@ -48,8 +48,9 @@ abstract class IncrementVersionTask : DefaultTask() {
             }
         }
 
-        println("$prevVersionName ($prevVersionCode) -> " +
-            "${version.versionName} (${version.versionCode})"
+        println(
+            "$prevVersionName ($prevVersionCode) -> " +
+                "${version.versionName} (${version.versionCode})"
         )
     }
 }
