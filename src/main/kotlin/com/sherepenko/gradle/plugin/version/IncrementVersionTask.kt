@@ -25,8 +25,8 @@ abstract class IncrementVersionTask : DefaultTask() {
     fun increment() {
         println("Incrementing ${increment.name} version...")
 
-        val prevVersionCode = version.versionCode
-        val prevVersionName = version.versionName
+        val previousVersionCode = version.versionCode
+        val previousVersionName = version.versionName
 
         if (prodRelease) {
             println("Prepare release version...")
@@ -49,7 +49,7 @@ abstract class IncrementVersionTask : DefaultTask() {
         }
 
         println(
-            "$prevVersionName ($prevVersionCode) -> " +
+            "$previousVersionName ($previousVersionCode) -> " +
                 "${version.versionName} (${version.versionCode})"
         )
     }

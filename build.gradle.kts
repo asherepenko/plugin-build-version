@@ -54,5 +54,5 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     testImplementation("com.google.truth:truth:1.0.1")
     testImplementation("junit:junit:4.13")
-    testImplementation("io.mockk:mockk:1.10.0")
+    testImplementation("io.mockk:mockk:1.10.2")
 }
