@@ -11,7 +11,7 @@ plugins {
 
 group = "com.sherepenko.gradle"
 description = "Semantic Versioning Plugin"
-version = "0.2.2"
+version = "0.2.3"
 
 repositories {
     jcenter()
