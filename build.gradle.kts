@@ -4,17 +4,17 @@ plugins {
     `java-gradle-plugin`
     `kotlin-dsl`
     `maven-publish`
-    id("com.gradle.plugin-publish") version "0.12.0"
-    id("org.jlleitschuh.gradle.ktlint") version "9.4.0"
-    kotlin("jvm") version "1.4.10"
+    id("com.gradle.plugin-publish") version "0.16.0"
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
+    kotlin("jvm") version "1.5.31"
 }
 
 group = "com.sherepenko.gradle"
 description = "Semantic Versioning Plugin"
-version = "0.2.3"
+version = "0.3.0"
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 pluginBundle {
@@ -52,7 +52,7 @@ ktlint {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    testImplementation("com.google.truth:truth:1.0.1")
-    testImplementation("junit:junit:4.13")
-    testImplementation("io.mockk:mockk:1.10.2")
+    testImplementation("com.google.truth:truth:1.1.3")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("io.mockk:mockk:1.12.0")
 }
